@@ -626,14 +626,23 @@ function initPullChain() {
         }
     }, { passive: true });
 
-    document.addEventListener("touchmove", (e) => {
+    // Реєструємо touchmove на самому руків'ї для сумісності з iOS Safari (Touch Target Lock)
+    handle.addEventListener("touchmove", (e) => {
         if (isDragging && e.touches.length > 0) {
             if (e.cancelable) e.preventDefault();
             onMove(e.touches[0].clientX, e.touches[0].clientY);
         }
     }, { passive: false });
 
+    // Глобальний обробник для надійності в інших мобільних браузерах
+    document.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+            if (e.cancelable) e.preventDefault();
+        }
+    }, { passive: false });
+
     document.addEventListener("touchend", onEnd);
+    handle.addEventListener("touchend", onEnd);
 
     // Запуск анімації
     animate();
