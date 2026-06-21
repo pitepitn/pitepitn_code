@@ -38,6 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Бібліотека музики
     initMusicLibrary();
+
+    // Боксерський манекен
+    initBobblehead();
 });
 
 // 1. ВЕБ-АУДІО ДЛЯ СИНТЕЗУ РЕТРО-ЗВУКІВ (Gameboy-style)
@@ -903,4 +906,158 @@ function initMusicLibrary() {
             playSound("success");
         }, 100);
     });
+}
+
+// 12. БОКСЕРСЬКИЙ МАНЕКЕН З ФІЗИКОЮ КОЛИВАНЬ
+function initBobblehead() {
+    const area = document.getElementById("physics-character");
+    const svg = document.getElementById("stickman-svg");
+    const head = document.getElementById("char-head");
+    const aimFinger = document.getElementById("aim-finger");
+    if (!area || !svg || !head || !aimFinger) return;
+
+    // Фізичні величини голови
+    let x = 0; // Зсув по X від центру (100)
+    let y = 0; // Зсув по Y від центру (85)
+    let vx = 0;
+    let vy = 0;
+
+    const k = 0.08; // Жорсткість пружини шиї
+    const damping = 0.92; // Згасання коливань
+    const maxDisplacement = 40; // Максимальний зсув голови
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let isMouseInside = false;
+    let hitSoundTriggered = false;
+
+    // Отримання координат відносно SVG viewBox (200x200)
+    function getSVGCoords(clientX, clientY) {
+        const pt = svg.createSVGPoint();
+        pt.x = clientX;
+        pt.y = clientY;
+        try {
+            const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+            return svgP;
+        } catch (e) {
+            // Фолбек, якщо CTM не готовий
+            const rect = svg.getBoundingClientRect();
+            return {
+                x: ((clientX - rect.left) / rect.width) * 200,
+                y: ((clientY - rect.top) / rect.height) * 200
+            };
+        }
+    }
+
+    // Головний цикл фізики та рендеру
+    function updatePhysics() {
+        // Сила пружини: тягне голову назад до центру (0,0)
+        const fx = -k * x;
+        const fy = -k * y;
+
+        // Зміна швидкості з урахуванням згасання
+        vx = (vx + fx) * damping;
+        vy = (vy + fy) * damping;
+
+        // Оновлення координат
+        x += vx;
+        y += vy;
+
+        // Обмеження максимального зсуву
+        const dist = Math.hypot(x, y);
+        if (dist > maxDisplacement) {
+            x = (x / dist) * maxDisplacement;
+            y = (y / dist) * maxDisplacement;
+            vx = 0;
+            vy = 0;
+        }
+
+        // Рендеримо голову в нове положення
+        head.setAttribute("transform", `translate(${100 + x}, ${85 + y})`);
+
+        // Якщо миша всередині, оновлюємо положення та напрямок пальця
+        if (isMouseInside) {
+            const mouseSVG = getSVGCoords(mouseX, mouseY);
+            
+            // Вектор від миші до центру голови в координатах SVG
+            const dx = (100 + x) - mouseSVG.x;
+            const dy = (85 + y) - mouseSVG.y;
+            const distance = Math.hypot(dx, dy);
+
+            // Кут, під яким палець дивиться на голову
+            const angle = Math.atan2(dy, dx);
+
+            // Оновлюємо положення кастомного пальця (кінчик 54,9 на координатах курсору)
+            aimFinger.style.left = `${mouseX - 54}px`;
+            aimFinger.style.top = `${mouseY - 9}px`;
+            aimFinger.style.transform = `rotate(${angle}rad)`;
+
+            // Перевірка зіткнення: радіус голови (30) + невеликий люфт
+            if (distance < 32) {
+                // Штовхаємо голову в напрямку кута
+                const pushForce = Math.min(5, (32 - distance) * 0.8);
+                vx += Math.cos(angle) * pushForce;
+                vy += Math.sin(angle) * pushForce;
+
+                // Звуковий відгук при першому дотику
+                if (!hitSoundTriggered) {
+                    playSound("click");
+                    hitSoundTriggered = true;
+                }
+            } else {
+                hitSoundTriggered = false;
+            }
+        }
+
+        requestAnimationFrame(updatePhysics);
+    }
+
+    // Відстеження руху миші
+    function onMove(clientX, clientY) {
+        mouseX = clientX;
+        mouseY = clientY;
+    }
+
+    area.addEventListener("mousemove", (e) => {
+        isMouseInside = true;
+        aimFinger.style.display = "block";
+        onMove(e.clientX, e.clientY);
+    });
+
+    area.addEventListener("mouseenter", () => {
+        isMouseInside = true;
+        aimFinger.style.display = "block";
+    });
+
+    area.addEventListener("mouseleave", () => {
+        isMouseInside = false;
+        aimFinger.style.display = "none";
+    });
+
+    // Підтримка тач-екранів (телефонів)
+    area.addEventListener("touchstart", (e) => {
+        if (e.touches.length > 0) {
+            isMouseInside = true;
+            aimFinger.style.display = "block";
+            onMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    area.addEventListener("touchmove", (e) => {
+        if (e.touches.length > 0) {
+            isMouseInside = true;
+            aimFinger.style.display = "block";
+            onMove(e.touches[0].clientX, e.touches[0].clientY);
+            // Запобігаємо прокрутці сторінки під час гри з манекеном
+            if (e.cancelable) e.preventDefault();
+        }
+    }, { passive: false });
+
+    area.addEventListener("touchend", () => {
+        isMouseInside = false;
+        aimFinger.style.display = "none";
+    });
+
+    // Запускаємо фізику
+    updatePhysics();
 }

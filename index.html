@@ -134,6 +134,29 @@
                     <input type="text" id="qa-input" class="zen-input" autocomplete="off" placeholder="...">
                 </div>
             </div>
+
+            <div class="bobblehead-container">
+                <h2>боксерський манекен</h2>
+                <p>наблизьте курсор, щоб штовхнути його в голову.</p>
+                <div id="physics-character" class="physics-char-area">
+                    <svg id="stickman-svg" width="200" height="200" viewBox="0 0 200 200">
+                        <!-- Body/Shoulders -->
+                        <path d="M 60 190 C 60 150 140 150 140 190" fill="none" stroke="var(--text-color)" stroke-width="2" />
+                        <!-- Neck -->
+                        <line x1="100" y1="150" x2="100" y2="120" stroke="var(--text-color)" stroke-width="2" />
+                        <!-- Head group with translate physics -->
+                        <g id="char-head" transform="translate(100, 85)">
+                            <!-- Head outline -->
+                            <circle cx="0" cy="0" r="30" fill="var(--bg-color)" stroke="var(--text-color)" stroke-width="2" />
+                            <!-- Face eyes -->
+                            <circle cx="-10" cy="-5" r="2" fill="var(--text-color)" />
+                            <circle cx="10" cy="-5" r="2" fill="var(--text-color)" />
+                            <!-- Mouth -->
+                            <path d="M -8 10 Q 0 5 8 10" fill="none" stroke="var(--text-color)" stroke-width="2" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
         </div>
 
         <!-- Секція: Гостьова книга -->
@@ -184,5 +207,11 @@
 </div>
 
 <script src="app.js"></script>
+<!-- Кастомний курсор-палець для боксерського манекена -->
+<div id="aim-finger">
+    <svg width="60" height="30" viewBox="0 0 60 30" style="overflow: visible;">
+        <path d="M 2 10 L 25 10 C 25 7 28 5 32 5 L 50 5 C 52 5 54 7 54 9 C 54 11 52 13 50 13 L 34 13 C 34 13 36 15 36 17 C 36 19 34 21 32 21 C 32 21 33 23 33 24 C 33 26 31 27 29 27 L 2 27 Z" fill="var(--bg-color)" stroke="var(--text-color)" stroke-width="1.5" />
+    </svg>
+</div>
 </body>
 </html>
