@@ -740,9 +740,9 @@ function initMusicLibrary() {
 
     let library = [];
 
-    // Зчитуємо дані з localStorage із захистом
+    // Зчитуємо дані з localStorage із захистом (використовуємо v4 для оновлення структури з обкладинками)
     try {
-        library = JSON.parse(localStorage.getItem("retro_music_library_v3") || "[]");
+        library = JSON.parse(localStorage.getItem("retro_music_library_v4") || "[]");
     } catch (err) {
         console.warn("Попередження: доступ до localStorage заблоковано.", err);
     }
@@ -755,18 +755,20 @@ function initMusicLibrary() {
                 status: "вийшов: 23.01.2026",
                 format: "mp3",
                 desc: "офіційний сингл проекту 'питання є? питань немає.'. доступний для прослуховування на spotify. тривалість: 3 хв 34 сек.",
-                link: "https://open.spotify.com/album/57b2fOOKfLDoph2Bv1SCcH?si=X1TR5bylTkeHZ3yYm16siw"
+                link: "https://open.spotify.com/album/57b2fOOKfLDoph2Bv1SCcH?si=X1TR5bylTkeHZ3yYm16siw",
+                cover: "https://i.scdn.co/image/ab67616d00001e027c5919b4943b8ba1a9417a73"
             },
             {
                 title: "вчорашній день",
                 status: "вийшов: 08.07.2024",
                 format: "mp3",
                 desc: "реліз 2024 року. експериментальний трек про плинність часу. доступний на spotify. тривалість: 3 хв 26 сек.",
-                link: "https://open.spotify.com/album/3Mcqv5aXKN6cM1Sz7MmT6w?si=2KBS02cZTyaO9SZtvjMsGA"
+                link: "https://open.spotify.com/album/3Mcqv5aXKN6cM1Sz7MmT6w?si=2KBS02cZTyaO9SZtvjMsGA",
+                cover: "https://i.scdn.co/image/ab67616d00001e0271a48999238bae5932dd966e"
             }
         ];
         try {
-            localStorage.setItem("retro_music_library_v3", JSON.stringify(library));
+            localStorage.setItem("retro_music_library_v4", JSON.stringify(library));
         } catch (err) {
             console.warn("Попередження: не вдалося зберегти бібліотеку в localStorage.", err);
         }
@@ -793,6 +795,24 @@ function initMusicLibrary() {
             const itemDiv = document.createElement("div");
             itemDiv.className = "music-item";
 
+            // Додаємо обкладинку, якщо вона є
+            if (item.cover) {
+                const coverWrapper = document.createElement("div");
+                coverWrapper.className = "music-cover-wrapper";
+                
+                const img = document.createElement("img");
+                img.className = "music-cover";
+                img.src = item.cover;
+                img.alt = item.title;
+                
+                coverWrapper.appendChild(img);
+                itemDiv.appendChild(coverWrapper);
+            }
+
+            // Контейнер для інформації про реліз
+            const infoDiv = document.createElement("div");
+            infoDiv.className = "music-item-info";
+
             const titleRow = document.createElement("div");
             titleRow.className = "music-title-row";
 
@@ -814,9 +834,9 @@ function initMusicLibrary() {
             descDiv.className = "music-item-desc";
             descDiv.textContent = item.desc.toLowerCase();
 
-            itemDiv.appendChild(titleRow);
-            itemDiv.appendChild(metaDiv);
-            itemDiv.appendChild(descDiv);
+            infoDiv.appendChild(titleRow);
+            infoDiv.appendChild(metaDiv);
+            infoDiv.appendChild(descDiv);
 
             if (item.link) {
                 const linkDiv = document.createElement("div");
@@ -830,9 +850,10 @@ function initMusicLibrary() {
                 a.rel = "noopener noreferrer";
                 a.textContent = "[слухати на spotify]";
                 linkDiv.appendChild(a);
-                itemDiv.appendChild(linkDiv);
+                infoDiv.appendChild(linkDiv);
             }
 
+            itemDiv.appendChild(infoDiv);
             listContainer.appendChild(itemDiv);
         });
     }
@@ -848,6 +869,7 @@ function initMusicLibrary() {
         const statusInput = document.getElementById("music-status");
         const formatInput = document.getElementById("music-format");
         const linkInput = document.getElementById("music-link");
+        const coverInput = document.getElementById("music-cover");
         const descInput = document.getElementById("music-desc");
 
         const newRelease = {
@@ -855,13 +877,14 @@ function initMusicLibrary() {
             status: statusInput.value.trim().toLowerCase(),
             format: formatInput.value.trim().toLowerCase(),
             link: linkInput ? linkInput.value.trim() : "",
+            cover: coverInput ? coverInput.value.trim() : "",
             desc: descInput.value.trim().toLowerCase()
         };
 
         library.unshift(newRelease); // додаємо на початок
 
         try {
-            localStorage.setItem("retro_music_library_v3", JSON.stringify(library));
+            localStorage.setItem("retro_music_library_v4", JSON.stringify(library));
         } catch (err) {
             console.warn("Попередження: не вдалося зберегти реліз.", err);
         }
@@ -873,6 +896,7 @@ function initMusicLibrary() {
         statusInput.value = "";
         formatInput.value = "";
         if (linkInput) linkInput.value = "";
+        if (coverInput) coverInput.value = "";
         descInput.value = "";
 
         setTimeout(() => {
