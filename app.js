@@ -627,10 +627,11 @@ function initPullChain() {
     }, { passive: true });
 
     document.addEventListener("touchmove", (e) => {
-        if (e.touches.length > 0) {
+        if (isDragging && e.touches.length > 0) {
+            if (e.cancelable) e.preventDefault();
             onMove(e.touches[0].clientX, e.touches[0].clientY);
         }
-    }, { passive: true });
+    }, { passive: false });
 
     document.addEventListener("touchend", onEnd);
 

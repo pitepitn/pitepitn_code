@@ -477,10 +477,26 @@ body.dark-mode {
 
 @media (max-width: 480px) {
     .app-container {
-        padding: 30px 45px 30px 10px;
+        padding: 30px 20px 30px 20px;
     }
     #pull-chain {
-        right: 8px;
+        right: 5px;
+    }
+    .minimal-nav {
+        gap: 10px 12px;
+    }
+    .minimal-nav a {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+    .minimal-input, .minimal-textarea, .zen-input {
+        font-size: 16px !important;
+    }
+    h2 {
+        font-size: 16px;
+    }
+    p, .music-item-desc, .post-text {
+        font-size: 14px;
     }
 }
 
