@@ -361,7 +361,7 @@ ol, ul {
     border: 1px solid var(--border-color);
     background-color: var(--bg-color);
     filter: grayscale(100%);
-    transition: filter 0.3s ease, transform 0.3s ease, border-radius 0.3s ease;
+    transition: filter 0.3s ease, transform 0.3s ease;
     object-fit: cover;
     display: block;
     transform-style: preserve-3d;
@@ -370,16 +370,15 @@ ol, ul {
 
 .music-cover:hover {
     filter: grayscale(0%);
-    border-radius: 50%;
     animation: spin-slow 8s linear infinite;
 }
 
 @keyframes spin-slow {
     0% {
-        transform: scale(1.12) rotateY(0deg);
+        transform: scale(1.15) rotateY(0deg);
     }
     100% {
-        transform: scale(1.12) rotateY(360deg);
+        transform: scale(1.15) rotateY(360deg);
     }
 }
 
