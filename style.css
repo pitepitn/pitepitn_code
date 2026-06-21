@@ -1,0 +1,563 @@
+/*
+   =========================================
+   STYLE.CSS (v2) - "Питання Є? Питань НемаЄ."
+   Ультрамінімалізм. Натхненно bo-en.info.
+   =========================================
+*/
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --text-muted: #888888;
+    --border-color: #000000;
+}
+
+html, body {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M0 0 L0 18 L5 13 L11 22 L14 20 L8 12 L14 12 Z' fill='black' stroke='white' stroke-width='2' stroke-linejoin='miter'/%3E%3C/svg%3E") 0 0, auto;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Courier New", Courier, monospace;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; (видалено для підтримки прокрутки при переповненні) */
+    box-sizing: border-box;
+    text-transform: lowercase; /* Усі літери маленькі в стилі bo-en */
+    letter-spacing: 0.5px;
+}
+
+a, button, .interactive-logo, #state-text, input[type="submit"], .minimal-btn, .minimal-input, .minimal-textarea, .minimal-nav a {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M12 2v10h-2v-2H8v2h-2v2h-2v8h12v-2h2v-2h2V10h-2V8h-2V6h-2V2z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 6 2, pointer;
+}
+
+/* Основний контейнер по центру */
+.app-container {
+    max-width: 650px;
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 60px 40px 20px; /* Додатковий правий паддінг для шнурка */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative; /* Необхідно для абсолютного позиціонування шнурка */
+}
+
+/* Інтерактивний центр сайту (Морфінг логотипу) */
+.logo-container {
+    margin-bottom: 30px;
+    perspective: 1000px;
+}
+
+.interactive-logo {
+    width: 100px;
+    height: 100px;
+    border: 1px dashed var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: transparent;
+}
+
+.interactive-logo:hover {
+    border-style: solid;
+    transform: scale(1.05);
+    background-color: #fcfcfc;
+}
+
+.interactive-logo:active {
+    transform: scale(0.95);
+}
+
+.interactive-logo.resolved {
+    border-style: solid;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* Підпис стану під логотипом */
+.state-text {
+    font-size: 14px;
+    color: var(--text-color);
+    margin-bottom: 35px;
+    height: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Мінімалістична навігація */
+.minimal-nav {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 45px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.minimal-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 2px 5px;
+    transition: all 0.2s ease;
+}
+
+.minimal-nav a:hover, .minimal-nav a.active {
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Область динамічного контенту */
+.content-area {
+    width: 100%;
+    flex-grow: 1; /* дозволяє розтягувати контентну область та притискати футер */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* центрування по вертикалі коли є вільне місце */
+    margin: 20px 0;
+}
+
+.content-section {
+    display: none;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.content-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Стилі тексту */
+h2 {
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+ol, ul {
+    display: inline-block;
+    text-align: left;
+    padding-left: 20px;
+    margin: 10px 0;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Ретро-мінімалістична консоль */
+.zen-console {
+    width: 100%;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.zen-history {
+    height: 140px;
+    overflow-y: auto;
+    border-bottom: 1px dotted var(--text-muted);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.zen-row {
+    margin-bottom: 4px;
+}
+
+.zen-row.user {
+    color: var(--text-muted);
+}
+
+.zen-row.system {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.zen-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.zen-prompt {
+    color: var(--text-color);
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.zen-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    outline: none;
+    padding: 0;
+    text-transform: lowercase;
+}
+
+/* Форми гостьової книги */
+.minimal-form {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.minimal-input {
+    width: 80%;
+    max-width: 300px;
+    border: none;
+    border-bottom: 1px solid var(--text-muted);
+    background: transparent;
+    color: var(--text-color);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    padding: 5px;
+    text-align: center;
+    outline: none;
+    transition: border-bottom 0.2s ease;
+}
+
+.minimal-input:focus {
+    border-bottom: 1px solid var(--text-color);
+}
+
+.minimal-textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--text-muted);
+    background: transparent;
+    color: var(--text-color);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    padding: 5px;
+    text-align: center;
+    outline: none;
+    resize: none;
+    transition: border-bottom 0.2s ease;
+}
+
+.minimal-textarea:focus {
+    border-bottom: 1px solid var(--text-color);
+}
+
+.minimal-btn {
+    border: 1px solid var(--text-color);
+    background: transparent;
+    color: var(--text-color);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 11px;
+    padding: 3px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 5px;
+}
+
+.minimal-btn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.minimal-btn:active {
+    transform: scale(0.97);
+}
+
+/* Списки повідомлень */
+.minimal-posts {
+    width: 100%;
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.minimal-post {
+    margin-bottom: 15px;
+    border-bottom: 1px dashed var(--text-muted);
+    padding-bottom: 10px;
+}
+
+.post-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+}
+
+.post-text {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Ретро бібліотека музики */
+.music-library-list {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.music-item {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed var(--text-muted);
+    padding-bottom: 15px;
+}
+
+.music-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.music-title-row {
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.music-media-icon {
+    font-family: monospace;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+.music-item-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.music-item-desc {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Кастомний тонкий скроллбар */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #dddddd;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #bbbbbb;
+}
+
+/* Таблиці контактів */
+.contacts-list {
+    text-align: left;
+    margin: 15px 0;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* Посилання */
+a {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* Фіксований лічильник знизу */
+.bottom-info {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    width: 100%;
+    margin-top: auto; /* притискає копірайт до низу */
+    padding-top: 30px;
+}
+
+.bottom-info span {
+    pointer-events: auto;
+}
+
+/* Ретро баннери у вигляді тексту */
+.text-badges {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+/* Ефекти курсора миші (зоряний шлейф) */
+.cursor-trail {
+    position: absolute;
+    pointer-events: none;
+    font-size: 10px;
+    font-family: "Courier New", Courier, monospace;
+    color: var(--text-color);
+    animation: trail-fade-out 0.6s ease-out forwards;
+    z-index: 99999;
+    user-select: none;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes trail-fade-out {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 10px))) scale(0.3);
+    }
+}
+
+/* Темна тема, що активується мотузкою */
+body.dark-mode {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --text-muted: #555555;
+    --border-color: #ffffff;
+}
+
+/* Стилі для мотузки вимикача */
+#pull-chain {
+    position: absolute;
+    top: 0;
+    right: 15px; /* Завжди фіксовано всередині паддінга контейнера */
+    width: 30px;
+    height: 300px;
+    z-index: 999999;
+    pointer-events: none;
+}
+
+@media (max-width: 480px) {
+    .app-container {
+        padding: 30px 45px 30px 10px;
+    }
+    #pull-chain {
+        right: 8px;
+    }
+}
+
+#chain-svg {
+    overflow: visible;
+}
+
+#chain-line {
+    stroke: var(--text-color);
+    stroke-width: 1.5;
+    stroke-dasharray: 2, 2;
+    fill: none;
+}
+
+#chain-handle path {
+    fill: var(--text-color);
+    stroke: var(--bg-color);
+    stroke-width: 1.5;
+    transition: fill 0.1s ease, stroke 0.1s ease;
+}
+
+#chain-handle circle {
+    fill: var(--bg-color);
+    transition: fill 0.1s ease;
+}
+
+#chain-handle {
+    pointer-events: auto;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M12 2v10h-2v-2H8v2h-2v2h-2v8h12v-2h2v-2h2V10h-2V8h-2V6h-2V2z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 6 2, pointer;
+    touch-action: none; /* Запобігає прокрутці екрану на мобільних при перетягуванні */
+}
+
+/* Екран завантаження (Boot Screen) */
+.boot-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999999;
+    font-family: "Courier New", Courier, monospace;
+    text-transform: lowercase;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* CRT схлопування екрану */
+.boot-screen.fade-out {
+    animation: crt-power-on 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes crt-power-on {
+    0% {
+        transform: scaleY(1) scaleX(1);
+        opacity: 1;
+        filter: brightness(1);
+    }
+    40% {
+        transform: scaleY(0.004) scaleX(1);
+        opacity: 1;
+        filter: brightness(2);
+        background-color: var(--text-color); /* спалах у смугу */
+    }
+    70% {
+        transform: scaleY(0.004) scaleX(0.05);
+        opacity: 1;
+        filter: brightness(5);
+        background-color: var(--text-color);
+    }
+    100% {
+        transform: scaleY(0) scaleX(0);
+        opacity: 0;
+        visibility: hidden;
+    }
+}

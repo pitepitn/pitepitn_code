@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>питання є? питань немає.</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="ультрамінімалістична версія проекту 'питання є? питань немає.' у стилі дзен-монохрому.">
+</head>
+<body>
+
+    <!-- Екран завантаження (Boot Screen) -->
+    <div id="boot-screen" class="boot-screen">
+        <div class="boot-container" style="text-align: center; width: 280px; transform: translateY(-20px);">
+            <div style="font-size: 13px; font-weight: bold; margin-bottom: 20px; letter-spacing: 0.5px;">проект: питання є? питань немає.</div>
+            <div id="boot-status" style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px; height: 15px;">очікування користувача...</div>
+            <button id="boot-btn" class="minimal-btn" style="text-transform: lowercase; margin-top: 0;">[ увійти ]</button>
+            <div id="boot-progress-container" style="display: none; font-family: monospace; font-size: 11px; margin-top: 15px; line-height: 1.5;">
+                <div id="boot-bar">[....................]</div>
+                <div id="boot-percentage">0%</div>
+            </div>
+        </div>
+    </div>
+
+<div class="app-container">
+
+    <!-- Мотузка вимикача світла -->
+    <div id="pull-chain">
+        <svg id="chain-svg" width="30" height="300">
+            <path id="chain-line" d="M 15 0 L 15 150" />
+            <g id="chain-handle" transform="translate(15, 150)">
+                <path d="M -6 0 L 6 0 L 4 12 L 8 16 L 8 20 L -8 20 L -8 16 L -4 12 Z" />
+                <circle cx="0" cy="20" r="2" />
+            </g>
+        </svg>
+    </div>
+    
+    <!-- Інтерактивний центр -->
+    <div class="logo-container">
+        <div class="interactive-logo" id="interactive-logo">?</div>
+    </div>
+    <div class="state-text" id="state-text">питання є?</div>
+
+    <!-- Мінімалістична навігація -->
+    <div class="minimal-nav">
+        <a href="#" class="active" data-section="home-section">головна</a>
+        <a href="#" data-section="about-section">про проект</a>
+        <a href="#" data-section="music-section">музика</a>
+        <a href="#" data-section="qa-section">інтерактив</a>
+        <a href="#" data-section="guestbook-section">гостьова</a>
+        <a href="#" data-section="contacts-section">контакти</a>
+    </div>
+
+    <!-- Робоча область контенту -->
+    <div class="content-area">
+        
+        <!-- Секція: Головна -->
+        <div id="home-section" class="content-section active">
+            <h2>простота буття</h2>
+            <p>
+                ласкаво просимо. цей простір створено для того, щоб звільнити розум.
+            </p>
+            <p>
+                у світі занадто багато складних питань. ми пропонуємо найпростіше рішення — зрозуміти, що насправді питань не існує.
+            </p>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 25px;">
+                [ клацніть на знак питання вгорі, щоб вимкнути його ]
+            </div>
+        </div>
+
+        <!-- Секція: Про проект -->
+        <div id="about-section" class="content-section">
+            <h2>філософія дзен</h2>
+            <p>
+                коли в тебе є питання, ти шукаєш відповідь. пошук створює напругу та хаос.
+            </p>
+            <p>
+                наша мета — допомогти вам перейти у стан порожнечі, де питання анулюються самі собою.
+            </p>
+            <p>
+                цей сайт повністю чорно-білий і позбавлений зайвих деталей, щоб ніщо не відволікало від головного відчуття чистоти та спокою.
+            </p>
+        </div>
+
+        <!-- Секція: Музика (Ретро-бібліотека) -->
+        <div id="music-section" class="content-section">
+            <h2>ретро-бібліотека релізів</h2>
+            <p>тут ви можете ознайомитись із майбутніми та поточними музичними релізами нашого проекту.</p>
+            
+            <div id="music-list" class="music-library-list">
+                <!-- треки завантажаться через JS -->
+            </div>
+
+            <hr style="border: none; border-top: 1px dashed var(--text-muted); margin: 25px 0;">
+
+            <h2>опублікувати новий реліз</h2>
+            <p>додати новий трек або альбом до нашої ретро-бібліотеки.</p>
+            
+            <form id="music-form" class="minimal-form" style="margin-top: 15px;">
+                <div class="form-group">
+                    <input type="text" id="music-title" class="minimal-input" placeholder="назва треку/альбому" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="music-status" class="minimal-input" placeholder="статус (напр: вже вийшов, анонс: 12.10)" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="music-format" class="minimal-input" placeholder="формат (напр: cassette, vinyl, mp3, cd)" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="url" id="music-link" class="minimal-input" placeholder="посилання (напр: spotify) [необов'язково]" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <textarea id="music-desc" class="minimal-textarea" rows="2" placeholder="короткий опис або нотатки" required></textarea>
+                </div>
+                <button type="submit" class="minimal-btn">опублікувати</button>
+            </form>
+        </div>
+
+        <!-- Секція: Інтерактив -->
+        <div id="qa-section" class="content-section">
+            <h2>термінал анулювання</h2>
+            <p>напишіть сюди те, що вас турбує. система перетворить це на ніщо.</p>
+            
+            <div class="zen-console">
+                <div class="zen-history" id="qa-history">
+                    <div class="zen-row system">система готова. введіть питання...</div>
+                </div>
+                <div class="zen-input-wrapper">
+                    <span class="zen-prompt">&gt;</span>
+                    <input type="text" id="qa-input" class="zen-input" autocomplete="off" placeholder="...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція: Гостьова книга -->
+        <div id="guestbook-section" class="content-section">
+            <h2>гостьова книга</h2>
+            <p>залиште тут свій слід. пишіть виключно маленькими літерами.</p>
+            
+            <form id="guestbook-form" class="minimal-form">
+                <div class="form-group">
+                    <input type="text" id="gb-name" class="minimal-input" placeholder="ваше ім'я" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <textarea id="gb-message" class="minimal-textarea" rows="2" placeholder="ваше повідомлення" required></textarea>
+                </div>
+                <button type="submit" class="minimal-btn">надіслати</button>
+            </form>
+
+            <div class="minimal-posts" id="guestbook-posts">
+                <!-- пости завантажаться через JS -->
+            </div>
+        </div>
+
+        <!-- Секція: Контакти -->
+        <div id="contacts-section" class="content-section">
+            <h2>зв'язок</h2>
+            <p>якщо у вас все ще залишилися питання, ви можете спробувати написати нам:</p>
+            <div class="contacts-list" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <div>електронна пошта: <a href="mailto:null@pitannyanemae.ua">null@pitannyanemae.ua</a></div>
+                <div>icq: <span style="color: var(--text-muted)">1337-420-99</span></div>
+                <div>irc: <span style="color: var(--text-muted)">#pitannya-nemae</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Текстові бейджі -->
+    <div class="text-badges">
+        <span>[made with notepad]</span>
+        <span>[optimized for browser]</span>
+        <span>[sound on]</span>
+    </div>
+
+    <!-- Лічильник та копірайт знизу -->
+    <div class="bottom-info">
+        <span id="counter-text">v.000000</span> // <span>© 2000-2026 питання є? питань немає.</span>
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
